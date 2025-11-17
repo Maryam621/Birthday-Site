@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Virtual Gift 🎁 | Happy Birthday Sir Adnan</title>
+
+  <style>
+    /* Body and background */
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      background: radial-gradient(circle at top, #0f2027, #203a43, #2c5364);
+      font-family: 'Poppins', sans-serif;
+      overflow-x: hidden;
+      text-align: center;
+      color: #00ffe7;
+      position: relative;
+      box-sizing: border-box;
+    }
+
+    h1 {
+      font-size: 3rem;
+      color: #00ffe7;
+      margin: 20px 10px 30px;
+      text-shadow: 0 0 10px #00ffe7, 0 0 20px #0ff, 0 0 30px #00aaff;
+      animation: glow 1.5s ease-in-out infinite alternate;
+      max-width: 90%;
+      word-wrap: break-word;
+    }
+
+    /* Main container (fixes button & messages layout) */
+    .container {
+      width: 100%;
+      max-width: 700px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Gift box */
+    .gift-box {
+      background: rgba(0,0,0,0.6);
+      border: 2px solid #00ffe7;
+      border-radius: 25px;
+      padding: 25px 30px;
+      box-shadow: 0 0 20px #00ffe7, 0 0 40px #00aaff;
+      width: 100%;
+      font-size: 1.3rem;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+      animation: fadeIn 2s ease;
+      margin-bottom: 25px;
+      box-sizing: border-box;
+    }
+
+    .gift-box:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 35px #00ffe7, 0 0 70px #00aaff;
+    }
+
+    /* Messages */
+    .message {
+      display: none;
+      background: rgba(0,0,0,0.5);
+      border: 2px solid #00ffe7;
+      border-radius: 20px;
+      padding: 20px 25px;
+      margin: 15px 0;
+      width: 100%;
+      box-shadow: 0 0 15px #00ffe7, 0 0 30px #00aaff;
+      font-size: 1.2rem;
+      color: #c0f0f5;
+      animation: floatUp 0.8s ease forwards;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-sizing: border-box;
+    }
+
+    .message:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 25px #00ffe7, 0 0 50px #00aaff;
+    }
+
+    /* Button (normal flow — NO overlap now) */
+    button {
+      background: linear-gradient(90deg, #00ffe7, #00aaff);
+      border: none;
+      color: #001f2d;
+      font-size: 1.2rem;
+      padding: 14px 28px;
+      border-radius: 30px;
+      margin-top: 30px;
+      cursor: pointer;
+      box-shadow: 0 0 15px #00ffe7, 0 0 30px #00aaff;
+      transition: transform 0.3s, box-shadow 0.3s;
+      width: auto;
+      max-width: 90%;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px #00ffe7, 0 0 50px #00aaff;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes floatUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #00ffe7; }
+      to { text-shadow: 0 0 40px #00aaff; }
+    }
+
+    /* Particles */
+    .particle {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: #00ffe7;
+      border-radius: 50%;
+      opacity: 0.8;
+      animation: moveParticle 6s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes moveParticle {
+      0% { transform: translateY(0) translateX(0); }
+      50% { transform: translateY(-50vh) translateX(50vw); }
+      100% { transform: translateY(0) translateX(0); }
+    }
+
+    /* Confetti */
+    .confetti {
+      position: absolute;
+      width: 6px;
+      height: 10px;
+      background-color: #00ffe7;
+      top: -10px;
+      animation: fall 4s linear infinite;
+      border-radius: 2px;
+      pointer-events: none;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(0) rotate(0deg); }
+      100% { transform: translateY(100vh) rotate(720deg); }
+    }
+
+    .confetti:nth-child(3n) {background-color:#0ff;}
+    .confetti:nth-child(3n+1) {background-color:#00aaff;}
+    .confetti:nth-child(3n+2) {background-color:#00fff0;}
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      h1 { font-size: 2.4rem; }
+      .gift-box { font-size: 1.15rem; padding: 20px; }
+      .message { font-size: 1.1rem; }
+      button { font-size: 1.1rem; padding: 12px 25px; }
+    }
+
+    @media (max-width: 480px) {
+      h1 { font-size: 1.9rem; }
+      .gift-box { font-size: 1rem; padding: 18px; }
+      .message { font-size: 1rem; padding: 16px; }
+      button { width: 100%; font-size: 1rem; padding: 14px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>🎁 Virtual Gift & Messages 🎉</h1>
+
+  <div class="container">
+
+    <div class="gift-box" onclick="openGift()">Click Here to Open Your Gift</div>
+
+    <div id="messages">
+      <div class="message">🌷 “Sir Adnan, your guidance inspires and motivates everyone around you.”</div>
+      <div class="message">💫 “May your days be filled with respect, admiration, and happiness.”</div>
+      <div class="message">📸 “Every moment shared under your mentorship is truly memorable.”</div>
+      <div class="message">🎉 “We celebrate your dedication, wisdom, and the positive impact you create.”</div>
+      <div class="message">🌈 “Wishing you a year ahead full of success, peace, and contentment.”</div>
+    </div>
+
+    <button onclick="nextSurprise()">Final Surprise ➡️</button>
+
+  </div>
+
+  <script>
+    // Particles
+    for(let i=0;i<50;i++){
+      let p=document.createElement('div');
+      p.classList.add('particle');
+      p.style.top=Math.random()*100+'vh';
+      p.style.left=Math.random()*100+'vw';
+      p.style.width=2+Math.random()*4+'px';
+      p.style.height=2+Math.random()*4+'px';
+      p.style.animationDelay=Math.random()*6+'s';
+      document.body.appendChild(p);
+    }
+
+    // Confetti
+    for(let i=0;i<50;i++){
+      let c=document.createElement('div');
+      c.classList.add('confetti');
+      c.style.left=Math.random()*100+'vw';
+      c.style.animationDelay=Math.random()*4+'s';
+      document.body.appendChild(c);
+    }
+
+    let messages = document.querySelectorAll('.message');
+    let giftOpened = false;
+
+    function openGift() {
+      if (!giftOpened) {
+        giftOpened = true;
+        messages.forEach((msg, idx) => {
+          setTimeout(() => { msg.style.display = 'block'; }, idx * 600);
+        });
+        document.querySelector('.gift-box').style.display = 'none';
+      }
+    }
+
+    function nextSurprise() {
+      window.location.href = 'final.html';
+    }
+  </script>
+
+</body>
+</html>

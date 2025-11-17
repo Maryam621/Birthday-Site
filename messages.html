@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Heartfelt Wishes 💌 | Happy Birthday Sir Adnan</title>
+  <style>
+    /* Body and background */
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: radial-gradient(circle at top, #0f2027, #203a43, #2c5364);
+      font-family: 'Poppins', sans-serif;
+      overflow: hidden;
+      color: #00ffe7;
+      position: relative;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    /* Content wrapper */
+    .content {
+      text-align: center;
+      width: 100%;
+      max-width: 700px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 2s ease;
+    }
+
+    /* Heading */
+    h1 {
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      color: #00ffe7;
+      text-shadow: 0 0 10px #00ffe7, 0 0 20px #0ff, 0 0 30px #00aaff;
+      animation: glow 1.5s ease-in-out infinite alternate;
+      margin-bottom: 20px;
+      padding: 0 10px;
+    }
+
+    /* Message boxes */
+    .message-box {
+      background: rgba(0, 0, 0, 0.6);
+      border: 2px solid #00ffe7;
+      border-radius: 25px;
+      padding: 20px;
+      box-shadow: 0 0 15px #00ffe7, 0 0 30px #00aaff;
+      width: 100%;
+      max-width: 650px;
+      text-align: center;
+      font-size: clamp(1rem, 3vw, 1.3rem);
+      color: #c0f0f5;
+      margin-top: 20px;
+      display: none;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-sizing: border-box;
+    }
+
+    .message-box:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 25px #00ffe7, 0 0 50px #00aaff;
+    }
+
+    /* Button */
+    button {
+      background: linear-gradient(90deg, #00ffe7, #00aaff);
+      border: none;
+      color: #001f2d;
+      font-size: clamp(1rem, 3vw, 1.2rem);
+      padding: 12px 26px;
+      border-radius: 30px;
+      margin-top: 30px;
+      cursor: pointer;
+      box-shadow: 0 0 15px #00ffe7, 0 0 30px #00aaff;
+      transition: transform 0.3s, box-shadow 0.3s;
+      width: auto;
+      max-width: 90%;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px #00ffe7, 0 0 50px #00aaff;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #00ffe7, 0 0 20px #0ff, 0 0 30px #00aaff; }
+      to { text-shadow: 0 0 20px #00ffe7, 0 0 40px #0ff, 0 0 60px #00aaff; }
+    }
+
+    /* Particles */
+    .particle {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: #00ffe7;
+      border-radius: 50%;
+      opacity: 0.8;
+      animation: moveParticle 6s linear infinite;
+    }
+
+    @keyframes moveParticle {
+      0% { transform: translateY(0) translateX(0); opacity:0.8; }
+      50% { transform: translateY(-50vh) translateX(50vw); opacity:0.4; }
+      100% { transform: translateY(0) translateX(0); opacity:0.8; }
+    }
+
+    /* Confetti */
+    .confetti {
+      position: absolute;
+      width: 6px;
+      height: 10px;
+      background-color: #00ffe7;
+      top: -10px;
+      animation: fall 4s linear infinite;
+      border-radius: 2px;
+    }
+
+    .confetti:nth-child(3n) {background-color:#0ff;}
+    .confetti:nth-child(3n+1) {background-color:#00aaff;}
+    .confetti:nth-child(3n+2) {background-color:#00fff0;}
+
+    @keyframes fall {
+      0% { transform: translateY(0) rotate(0deg); }
+      100% { transform: translateY(100vh) rotate(720deg); }
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="content">
+    <h1>💌 Heartfelt Wishes 💌</h1>
+
+    <div id="messages">
+      <div class="message-box">🌷 “Sir Adnan, you deserve every happiness and success today and always.”</div>
+      <div class="message-box">🎉 “May this birthday bring you joy, laughter, and countless memorable moments.”</div>
+      <div class="message-box">💫 “Your guidance, wisdom, and support positively impact everyone around you.”</div>
+      <div class="message-box">🎂 “We celebrate your remarkable achievements and the inspiration you provide daily.”</div>
+      <div class="message-box">🌈 “May your year ahead be filled with fulfillment, happiness, and continued success.”</div>
+    </div>
+
+    <button id="nextBtn" onclick="showNextMessage()">Show Next 💕</button>
+  </div>
+
+  <script>
+    // Particles
+    for(let i=0;i<50;i++){
+      let p=document.createElement('div');
+      p.classList.add('particle');
+      p.style.top=Math.random()*100+'vh';
+      p.style.left=Math.random()*100+'vw';
+      p.style.width=2+Math.random()*4+'px';
+      p.style.height=2+Math.random()*4+'px';
+      p.style.animationDelay=Math.random()*6+'s';
+      document.body.appendChild(p);
+    }
+
+    // Confetti
+    for(let i=0;i<50;i++){
+      let c=document.createElement('div');
+      c.classList.add('confetti');
+      c.style.left=Math.random()*100+'vw';
+      c.style.animationDelay=Math.random()*4+'s';
+      document.body.appendChild(c);
+    }
+
+    let messages = document.querySelectorAll('.message-box');
+    let index = 0;
+    let button = document.getElementById('nextBtn');
+
+    // Show first message
+    messages[index].style.display = 'block';
+
+    function showNextMessage() {
+      messages[index].style.display = 'none';
+      index++;
+      if (index < messages.length) {
+        messages[index].style.display = 'block';
+      } else {
+        button.innerText = '🎁 Next Surprise';
+        button.onclick = () => window.location.href = 'music.html';
+      }
+    }
+  </script>
+
+</body>
+</html>

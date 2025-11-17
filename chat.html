@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Birthday Assistant 🤖</title>
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: radial-gradient(circle at top, #0f2027, #203a43, #2c5364);
+      font-family: 'Poppins', sans-serif;
+      color: #00ffe7;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* HEADER */
+    #header {
+      padding: 12px;
+      background: #001f2d;
+      border-bottom: 2px solid #00ffe7;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 1.1rem;
+      text-shadow: 0 0 8px #00ffe7;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .icon-btn {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: #00ffe7;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .icon-btn:hover {
+      color: #00aaff;
+    }
+
+    /* CHAT MESSAGES */
+    #chatMessages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      scroll-behavior: smooth;
+    }
+
+    #chatMessages::-webkit-scrollbar {
+      width: 6px;
+    }
+    #chatMessages::-webkit-scrollbar-thumb {
+      background: #00aaff;
+      border-radius: 3px;
+    }
+
+    .msg {
+      padding: 10px;
+      border-radius: 10px;
+      max-width: 75%;
+      font-size: 0.95rem;
+      line-height: 1.4;
+      animation: fadeIn 0.3s ease;
+      word-wrap: break-word;
+      white-space: pre-wrap;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .bot {
+      background: #00ffe7;
+      color: #001f2d;
+      align-self: flex-start;
+    }
+
+    .user {
+      background: #444;
+      color: white;
+      align-self: flex-end;
+    }
+
+    /* TYPING / LOADING DOTS */
+    .typing {
+      display: inline-flex;
+      gap: 6px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      background: #00ffe7;
+      color: #001f2d;
+      align-self: flex-start;
+      width: fit-content;
+    }
+    .typing .dot {
+      width: 7px;
+      height: 7px;
+      background: #001f2d;
+      border-radius: 50%;
+      opacity: 0.2;
+      animation: bounce 1s infinite;
+    }
+    .typing .dot:nth-child(2) { animation-delay: 0.15s; }
+    .typing .dot:nth-child(3) { animation-delay: 0.3s; }
+
+    @keyframes bounce {
+      0% { transform: translateY(0); opacity: 0.2; }
+      40% { transform: translateY(-6px); opacity: 1; }
+      80% { transform: translateY(0); opacity: 0.4; }
+      100% { transform: translateY(0); opacity: 0.2; }
+    }
+
+    /* INPUT BAR */
+    #chatInputArea {
+      display: flex;
+      padding: 10px;
+      background: #001f2d;
+      border-top: 2px solid #00aaff;
+    }
+
+    #userInput {
+      flex: 1;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      background: #0f2027;
+      color: #00ffe7;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    #sendBtn {
+      margin-left: 10px;
+      background: linear-gradient(90deg, #00ffe7, #00aaff);
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: none;
+      color: #001f2d;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: 0.2s ease;
+    }
+
+    #sendBtn:hover {
+      opacity: 0.95;
+      transform: scale(1.02);
+    }
+
+    /* PARTICLES */
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: #00ffe7;
+      border-radius: 50%;
+      opacity: 0.6;
+      animation: move 6s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes move {
+      0% { transform: translateY(0); opacity: 0.7; }
+      50% { transform: translateY(-50vh); opacity: 0.3; }
+      100% { transform: translateY(0); opacity: 0.7; }
+    }
+
+    /* RESPONSIVE */
+    @media(max-width: 480px) {
+      #header { font-size: 1rem; padding: 10px; }
+      .icon-btn { font-size: 1.3rem; }
+      #sendBtn, #userInput { font-size: 0.9rem; }
+      .msg { font-size: 0.85rem; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER WITH ARROW + CLOSE BUTTON -->
+  <div id="header">
+    <div class="header-left">
+      <button class="icon-btn" onclick="window.location.href='index.html'">⟵</button>
+      <span>AI Birthday Assistant 🤖</span>
+    </div>
+    <button class="icon-btn" onclick="closeChat()">✖</button>
+  </div>
+
+  <div id="chatMessages">
+    <div class="msg bot">🤖 Hello Sir Adnan! Happy Birthday! 🎉</div>
+  </div>
+
+  <!-- INPUT -->
+  <div id="chatInputArea">
+    <input id="userInput" type="text" placeholder="Type your message..." autocomplete="off" />
+    <button id="sendBtn" onclick="handleSend()">➤</button>
+  </div>
+
+  <script>
+    /* ---------- PARTICLES ---------- */
+    for (let i = 0; i < 40; i++) {
+      const p = document.createElement("div");
+      p.classList.add("particle");
+      p.style.left = Math.random() * 100 + "vw";
+      p.style.top = Math.random() * 100 + "vh";
+      p.style.animationDelay = Math.random() * 5 + "s";
+      p.style.width = 2 + Math.random() * 4 + "px";
+      p.style.height = 2 + Math.random() * 4 + "px";
+      document.body.appendChild(p);
+    }
+
+    function closeChat() {
+      document.body.innerHTML = `
+        <div style="
+          color:#00ffe7;
+          display:flex;
+          justify-content:center;
+          align-items:center;
+          height:100vh;
+          text-align:center;
+          padding:20px;
+          font-size:1.3rem;">
+          Chatbot Closed ❌<br><br>Reload page to open again.
+        </div>
+      `;
+    }
+
+    /* ---------- COMBINED KEYWORD RESPONSES ---------- */
+    const keywordResponses = {
+      /* --------- OLD BOT RESPONSES --------- */
+      "happy birthday": [
+        "🎉 Thank you so much! Your birthday message truly made my day!",
+        "🎂 That was such a sweet birthday wish! You made me smile!",
+        "🤖 Your birthday wish = 100% happiness downloaded!",
+        "🎊 Aww, thank you! You're amazing!",
+        "🌟 Your words mean a lot — thank you for celebrating with me!"
+      ],
+      "congratulations": [
+        "Thank you! I'm honored and grateful. 🎉",
+        "Your congratulations warm my circuits. 😊"
+      ],
+      "hi": [
+        "Hello! 👋 How can I brighten your day today?",
+        "Hey! 😄 What’s up?",
+        "Hi there! Ready to celebrate? 🎉"
+      ],
+      "hello": [
+        "Hello! 😊",
+        "Hi! How can I help today?",
+        "Hey there! 💫"
+      ],
+      "hey": [
+        "Hey! Great to see you here. 🎉",
+        "Hey! Want to send a wish?"
+      ],
+      "how are you": [
+        "I'm feeling electric ⚡ today! What about you?",
+        "System status: Happy and glowing! ✨",
+        "Running perfectly, thanks for asking! 😄"
+      ],
+      "how r you": [
+        "I'm glowing today! 🌟"
+      ],
+      "who are you": [
+        "I'm your AI Birthday Assistant 🤖✨",
+        "I’m a little bot created to celebrate this special day with you 🎉"
+      ],
+      "what is your name": [
+        "You can call me AI Birthday Assistant 🤖",
+        "I’m your friendly birthday bot — here to spread smiles!"
+      ],
+      "thank": [
+        "You're welcome! 😊",
+        "Glad I could help!",
+        "Anytime! 💙",
+        "Happy to hear that! 🎉"
+      ],
+      "joke": [
+        "Why did the cake cross the road? It wanted to get to the party on the other side! 🎂😄",
+        "I asked the birthday candle for advice — it said 'shine bright!' 😆",
+        "What do you call a snowman at a birthday party? A frosty guest! ☃️🎉"
+      ],
+      "funny": [
+        "Birthday detected. Cake mode activated 🍰😆",
+        "Warning: Too much sweetness in your message! 💖"
+      ],
+      "wish": [
+        "May your day be filled with joy, peace, and a slice of cake! 🎂",
+        "Wishing you success, health, and many happy moments. 🌈"
+      ],
+      "quote": [
+        "“Be the light that brightens someone’s day.” ✨",
+        "“Smiles are free—send one now.” 😊"
+      ],
+      "sir": [
+        "Thank you, Sir Adnan! Your guidance inspires all of us.",
+        "A respectful wish — much appreciated, Sir! 🎩"
+      ],
+      "teacher": [
+        "Teachers like you shape futures — happy birthday and thank you! 🍎"
+      ],
+      "what are you doing": [
+        "Celebrating with you and collecting good wishes! 🎉",
+        "Listening to lovely messages — tell me one more!"
+      ],
+      "tell me something": [
+        "You are appreciated. That’s one thing I can tell you. 💫",
+        "Kindness always finds its way back to the giver."
+      ],
+      "i miss you": [
+        "Distance can't stop good wishes — sending virtual hugs 🤗",
+        "Memories are always close to the heart. ❤️"
+      ],
+      "love": [
+        "Love is the best gift — thank you for spreading it! 💖",
+        "Your love makes this day brighter."
+      ],
+      "advice": [
+        "Take one small step today toward something you love — it adds up! 🌱",
+        "Celebrate your small wins — they matter as much as big ones."
+      ],
+      "memory": [
+        "Share a favorite memory with Sir Adnan — I'd love to hear it!",
+        "Tell me about a moment that made you smile with Sir Adnan."
+      ],
+      "bye": [
+        "Goodbye! Have a wonderful day! 🎉",
+        "See you later — thanks for the wishes!"
+      ],
+      "goodbye": [
+        "Goodbye! Stay blessed. 🌟"
+      ],
+      "help": [
+        "I can help you create a beautiful birthday message. Try: 'Write a short wish for Sir Adnan'.",
+        "Ask me for jokes, quotes, or a heartfelt message — I'm here to help!"
+      ],
+      "write a wish": [
+        "‘Sir Adnan, your mentorship has been a guiding light. Wishing you a blessed and joyful birthday.’",
+        "‘Happy Birthday Sir Adnan — may your year ahead be full of success and smiles.’",
+        "‘Dear Sir Adnan, thank you for your guidance. Best wishes on your special day!’"
+      ],
+
+      /* --------- NEW PROFESSIONAL / EMOTIONAL TEACHER RESPONSES --------- */
+      "happy birthday": [
+        "🎉 **Happy Birthday, Sir Adnan!** May this year bring peace, success and endless happiness.",
+        "🎂 Your presence inspires students daily. Wishing you a year filled with blessings and joy.",
+        "🌟 May your special day shine as bright as the guidance you give to others.",
+        "🎊 Thank you for being a mentor who shapes minds and hearts. Happy Birthday!",
+        "✨ Your leadership and kindness make every day better. Warmest birthday wishes, Sir!"
+      ],
+      "sir": [
+        "Your guidance makes difficult paths easier. Happy Birthday once again, Sir! 🎉",
+        "A teacher like you is a gift — respected and admired. 🌟",
+        "Your words stay in hearts longer than in books, Sir. 💙",
+        "You inspire, you guide, you care — and that’s what makes you special."
+      ],
+      "teacher": [
+        "A true teacher doesn't just teach — they inspire. Thank you for being that person. 🍎",
+        "Happy Birthday to an educator whose impact is beyond words. 🌟"
+      ]
+    };
+
+    const randomFallback = [
+      "Your words carry warmth — keep spreading kindness. 💙",
+      "Some people teach; some inspire. You celebrate someone who inspires. 🌟",
+      "That was sweet — your message added a spark to the moment!",
+      "If appreciation had a sound, yours would be the warmest. ✨",
+      "Sometimes the smallest words create the biggest smiles. 😊",
+      "You're doing great — keep expressing beautifully.",
+      "Your energy today is full of positivity — I like it!",
+      "A little kindness goes a long way, and you just proved that. 💫",
+      "Your messages brighten the chat — thank you!",
+      "If good vibes had a shape, yours would be a star. ⭐",
+      "May today bring peace and something to smile about.",
+      "Your thoughts reflect a beautiful heart. ✨",
+      "Every message from you feels meaningful.",
+      "Sending a soft reminder: You are appreciated. 💛",
+      "Let’s celebrate moments, memories, and good wishes together."
+    ];
+
+    function pick(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function showTypingThenReply(replyText, typingMs = 1000) {
+      const chat = document.getElementById("chatMessages");
+      const typing = document.createElement("div");
+      typing.className = "typing";
+      typing.innerHTML = '<span class="dot"></span><span class="dot"></span><span class="dot"></span>';
+      chat.appendChild(typing);
+      chat.scrollTop = chat.scrollHeight;
+
+      setTimeout(() => {
+        typing.remove();
+        const bot = document.createElement("div");
+        bot.className = "msg bot";
+        bot.innerText = replyText;
+        chat.appendChild(bot);
+        chat.scrollTop = chat.scrollHeight;
+      }, typingMs);
+    }
+
+    function generateReply(userText) {
+      const text = userText.toLowerCase();
+      const keys = Object.keys(keywordResponses).sort((a,b)=> b.length - a.length);
+
+      for (let k of keys) {
+        if (text.includes(k)) {
+          return pick(keywordResponses[k]);
+        }
+      }
+
+      if (text.length < 3) {
+        return "Could you type a bit more? I want to make a lovely reply! 💬";
+      }
+
+      return pick(randomFallback);
+    }
+
+    function handleSend() {
+      const input = document.getElementById("userInput");
+      const msg = input.value.trim();
+      if (!msg) return;
+
+      const chat = document.getElementById("chatMessages");
+      const user = document.createElement("div");
+      user.className = "msg user";
+      user.innerText = msg;
+      chat.appendChild(user);
+      chat.scrollTop = chat.scrollHeight;
+
+      input.value = "";
+      input.focus();
+
+      const computedTypingMs = Math.min(1800, 600 + Math.max(0, msg.length * 30));
+      const reply = generateReply(msg);
+      showTypingThenReply(reply, computedTypingMs);
+    }
+
+    document.getElementById("userInput").addEventListener("keydown", function(e) {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        handleSend();
+      }
+    });
+
+    document.getElementById("sendBtn").addEventListener("click", handleSend);
+
+    (function initialHints() {
+      const chat = document.getElementById("chatMessages");
+      const hint = document.createElement("div");
+      hint.className = "msg bot";
+      hint.innerText = "Tip: Try ‘Happy Birthday’, ‘Tell me a joke’, ‘Write a wish’, or ‘How are you?’";
+      chat.appendChild(hint);
+      chat.scrollTop = chat.scrollHeight;
+    })();
+  </script>
+
+</body>
+</html>

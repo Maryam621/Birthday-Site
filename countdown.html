@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday Sir Adnan 🎉 | AI Surprise</title>
+
+  <style>
+    /* General Styles */
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'Poppins', sans-serif;
+      overflow-x: hidden;
+      text-align: center;
+      position: relative;
+      color: #00ffe7;
+      box-sizing: border-box;
+    }
+
+    /* Countdown Styles */
+    .countdown-body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: radial-gradient(circle at center, #0f2027, #203a43, #2c5364);
+      overflow: hidden;
+    }
+
+    .countdown-container {
+      text-align: center;
+      z-index: 10;
+      opacity: 1;
+      transition: opacity 1s ease;
+    }
+
+    .countdown-container.fade-out {
+      opacity: 0;
+    }
+
+    .countdown-number {
+      font-size: 15rem;
+      font-weight: 900;
+      color: #00ffe7;
+      text-shadow: 
+        0 0 20px #00ffe7,
+        0 0 40px #00ffe7,
+        0 0 60px #00ffe7,
+        0 0 80px #00aaff,
+        0 0 100px #00aaff;
+      animation: countdownPulse 0.8s ease-out;
+      line-height: 1;
+      margin: 0;
+    }
+
+    @keyframes countdownPulse {
+      0% { transform: scale(0.3); opacity: 0; }
+      50% { transform: scale(1.2); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .countdown-ready {
+      font-size: 4rem;
+      color: #00ffe7;
+      text-shadow: 
+        0 0 20px #00ffe7,
+        0 0 40px #0ff,
+        0 0 60px #00aaff;
+      animation: readyGlow 1s ease-in-out infinite alternate;
+      margin-top: 20px;
+    }
+
+    @keyframes readyGlow {
+      from { text-shadow: 0 0 20px #00ffe7, 0 0 40px #0ff, 0 0 60px #00aaff; }
+      to { text-shadow: 0 0 30px #00ffe7, 0 0 60px #0ff, 0 0 90px #00aaff; }
+    }
+
+    .countdown-particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: #00ffe7;
+      border-radius: 50%;
+      opacity: 0.8;
+      animation: particleFloat 3s ease-in-out infinite;
+    }
+
+    @keyframes particleFloat {
+      0%, 100% { transform: translateY(0) translateX(0); opacity: 0.8; }
+      50% { transform: translateY(-30px) translateX(20px); opacity: 0.4; }
+    }
+
+    /* Main Page Styles */
+    #main-content {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      text-align: center;
+      color: #00ffe7;
+      font-family: 'Poppins', sans-serif;
+      opacity: 0;
+      transition: opacity 1.5s ease;
+      background: radial-gradient(circle at top, #0f2027, #203a43, #2c5364);
+      min-height: 100vh;
+    }
+
+    #main-content.show {
+      display: flex;
+      opacity: 1;
+    }
+
+    h1 {
+      font-size: 3.2rem;
+      text-shadow: 0 0 10px #00ffe7, 0 0 20px #0ff, 0 0 30px #00aaff;
+      animation: glow 1.5s ease-in-out infinite alternate;
+      margin-bottom: 20px;
+      max-width: 95%;
+    }
+
+    p {
+      font-size: 1.3rem;
+      color: #c0f0f5;
+      max-width: 700px;
+      margin: 10px auto;
+      line-height: 1.6;
+      animation: fadeIn 3s ease;
+    }
+
+    button {
+      background: linear-gradient(90deg, #00ffe7, #00aaff);
+      border: none;
+      color: #001f2d;
+      font-size: 1.2rem;
+      padding: 14px 28px;
+      border-radius: 30px;
+      margin-top: 25px;
+      cursor: pointer;
+      box-shadow: 0 0 15px #00ffe7, 0 0 30px #00aaff;
+      transition: transform 0.3s, box-shadow 0.3s;
+      max-width: 90%;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px #00ffe7, 0 0 50px #00aaff;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #00ffe7, 0 0 20px #0ff, 0 0 30px #00aaff; }
+      to { text-shadow: 0 0 20px #00ffe7, 0 0 40px #0ff, 0 0 60px #00aaff; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Particles and Confetti */
+    .particle, .confetti {
+      position: absolute;
+      pointer-events: none;
+    }
+
+    .particle {
+      width: 4px; height: 4px; background: #00ffe7; border-radius: 50%;
+      opacity: 0.8; animation: moveParticle 6s linear infinite;
+    }
+    @keyframes moveParticle {
+      0% { transform: translateY(0) translateX(0); opacity: 0.8; }
+      50% { transform: translateY(-50vh) translateX(50vw); opacity: 0.4; }
+      100% { transform: translateY(0) translateX(0); opacity: 0.8; }
+    }
+
+    .confetti {
+      width: 6px; height: 10px; border-radius: 2px;
+      animation: fall 4s linear infinite;
+    }
+    @keyframes fall {
+      0% { transform: translateY(0) rotate(0deg); }
+      100% { transform: translateY(100vh) rotate(720deg); }
+    }
+
+    .confetti:nth-child(3n) { background-color: #0ff; }
+    .confetti:nth-child(3n+1) { background-color: #00aaff; }
+    .confetti:nth-child(3n+2) { background-color: #00fff0; }
+
+    /* Responsive */
+    @media (max-width: 768px) { 
+      .countdown-number { font-size: 10rem; } 
+      .countdown-ready { font-size: 2.5rem; }
+      h1 { font-size: 2.4rem; } 
+      p { font-size: 1.1rem; } 
+      button { font-size: 1rem; padding: 12px 22px; } 
+    }
+    @media (max-width: 480px) { 
+      .countdown-number { font-size: 8rem; } 
+      .countdown-ready { font-size: 2rem; }
+      h1 { font-size: 2rem; } 
+      p { font-size: 1rem; } 
+      button { width: 100%; font-size: 1rem; padding: 14px; } 
+    }
+    @media (max-width: 360px) { 
+      .countdown-number { font-size: 6rem; } 
+      .countdown-ready { font-size: 1.5rem; } 
+    }
+  </style>
+</head>
+
+<body class="countdown-body">
+
+  <!-- Countdown -->
+  <div class="countdown-container" id="countdown-container">
+    <div class="countdown-number" id="countdown-number">3</div>
+  </div>
+
+  <!-- Main Content -->
+  <div id="main-content">
+    <h1>🤖 Happy Birthday Sir Adnan! 🎂</h1>
+    <p>Welcome to your AI-powered birthday experience! Click below to start your magical surprises designed just for you. ✨</p>
+    <button onclick="startSurprise()">Start the Surprise 🚀</button>
+  </div>
+
+  <script>
+    let count = 3;
+    const countdownNumber = document.getElementById('countdown-number');
+    const countdownContainer = document.getElementById('countdown-container');
+
+    // Countdown particles
+    for (let i = 0; i < 30; i++) {
+      const p = document.createElement('div');
+      p.classList.add('countdown-particle');
+      p.style.top = Math.random() * 100 + 'vh';
+      p.style.left = Math.random() * 100 + 'vw';
+      p.style.animationDelay = Math.random() * 3 + 's';
+      p.style.width = 3 + Math.random() * 4 + 'px';
+      p.style.height = 3 + Math.random() * 4 + 'px';
+      document.body.appendChild(p);
+    }
+
+    const timer = setInterval(() => {
+      count--;
+      if(count <= 0) {
+        clearInterval(timer);
+        countdownNumber.textContent = '';
+        countdownContainer.innerHTML = '<div class="countdown-ready">🎉 Ready! 🎂</div>';
+        setTimeout(fadeToMain, 1000);
+      } else {
+        countdownNumber.textContent = count;
+      }
+    }, 1000);
+
+    function fadeToMain() {
+      countdownContainer.classList.add('fade-out');
+      setTimeout(() => {
+        document.body.classList.remove('countdown-body');
+        countdownContainer.style.display = 'none';
+        const main = document.getElementById('main-content');
+        main.classList.add('show');
+
+        // Floating particles for main content
+        for (let i = 0; i < 50; i++) {
+          let p = document.createElement('div');
+          p.classList.add('particle');
+          p.style.top = Math.random() * 100 + 'vh';
+          p.style.left = Math.random() * 100 + 'vw';
+          p.style.animationDelay = Math.random() * 6 + 's';
+          p.style.width = 2 + Math.random() * 4 + 'px';
+          p.style.height = 2 + Math.random() * 4 + 'px';
+          document.body.appendChild(p);
+        }
+
+        // Confetti
+        for (let i = 0; i < 50; i++) {
+          let c = document.createElement('div');
+          c.classList.add('confetti');
+          c.style.left = Math.random() * 100 + 'vw';
+          c.style.animationDelay = Math.random() * 4 + 's';
+          document.body.appendChild(c);
+        }
+      }, 1000);
+    }
+
+    function startSurprise() {
+      window.location.href = 'memories.html';
+    }
+  </script>
+
+</body>
+</html>
